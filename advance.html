@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Online Shopping App</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      background:#f8f9fa;
+    }
+
+    /* LOADER */
+
+    #loader{
+      position:fixed;
+      width:100%;
+      height:100vh;
+      background:#212529;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+
+    .loading-title{
+      color:white;
+      font-size:65px;
+      font-weight:bold;
+      animation:zoom 2s infinite;
+    }
+
+    @keyframes zoom{
+
+      0%{
+        transform:scale(1);
+      }
+
+      50%{
+        transform:scale(1.1);
+      }
+
+      100%{
+        transform:scale(1);
+      }
+
+    }
+
+    .hero{
+      height:90vh;
+      background:url('https://plus.unsplash.com/premium_photo-1677995700941-100976883af7?q=80&w=2123&auto=format&fit=crop') center/cover;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      text-align:center;
+    }
+
+    .hero-box{
+      background:rgba(0,0,0,0.5);
+      padding:50px;
+      border-radius:20px;
+      box-shadow:0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .hero-box h1{
+      font-size:55px;
+      font-weight:bold;
+    }
+
+    .hero-box p{
+      font-size:20px;
+      margin:20px 0;
+    }
+
+    .card img{
+      height:250px;
+      object-fit:cover;
+    }
+
+    .card{
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    section{
+      padding:80px 0;
+    }
+
+    footer{
+      background:#212529;
+      color:white;
+      text-align:center;
+      padding:20px;
+      margin-top:50px;
+    }
+
+    #cart-count{
+      background:red;
+      color:white;
+      border-radius:50%;
+      padding:2px 8px;
+      font-size:14px;
+      margin-left:5px;
+    }
+
+    .timer-box{
+      background:#212529;
+      color:white;
+      padding:10px;
+      border-radius:10px;
+      text-align:center;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- LOADING SCREEN -->
+
+<div id="loader">
+
+  <h1 class="loading-title">
+    Welcome to Vrusha's Shopping App
+  </h1>
+
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
+  <div class="container">
+
+    <a class="navbar-brand" href="#">
+      Vrusha's Shopping App
+    </a>
+
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu">
+
+      <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+
+      <ul class="navbar-nav ms-auto gap-2 align-items-center">
+
+        <li class="nav-item">
+          <a href="#home" class="btn btn-dark">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="#products" class="btn btn-dark">Products</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="#cart" class="btn btn-dark">
+            Cart <span id="cart-count">0</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="#contact" class="btn btn-dark">Contact</a>
+        </li>
+
+        <!-- Login Dropdown -->
+        <li class="nav-item dropdown">
+
+          <button class="btn btn-warning dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown">
+
+            Login
+
+          </button>
+
+          <div class="dropdown-menu dropdown-menu-end p-4 shadow"
+               style="min-width:300px;">
+
+            <form id="loginForm">
+
+              <div class="mb-3">
+
+                <label>Email</label>
+
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       placeholder="Enter Email"
+                       required>
+
+              </div>
+
+              <div class="mb-3">
+
+                <label>Password</label>
+
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Enter Password"
+                       required>
+
+              </div>
+
+              <button type="submit"
+                      class="btn btn-primary w-100">
+
+                Login
+
+              </button>
+
+            </form>
+
+          </div>
+
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+
+  <div class="hero-box">
+
+    <h1>Online Shopping App</h1>
+
+    <p>Best Products at Best Prices</p>
+
+    <a href="#products" class="btn btn-warning btn-lg">
+      Shop Now
+    </a>
+
+  </div>
+
+</section>
+
+<!-- Products -->
+<section id="products">
+
+  <div class="container">
+
+    <h2 class="text-center mb-5">
+      Featured Products
+    </h2>
+
+    <!-- SEARCH + FILTER -->
+
+    <div class="row mb-5">
+
+      <!-- Search Box -->
+      <div class="col-md-6 mb-3">
+
+        <input type="text"
+               id="search-box"
+               class="form-control"
+               placeholder="Search Products...">
+
+      </div>
+
+      <!-- Filter -->
+      <div class="col-md-6 mb-3">
+
+        <select id="price-filter"
+                class="form-select">
+
+          <option value="all">
+            Filter By Price
+          </option>
+
+          <option value="1000">
+            Below ₹1000
+          </option>
+
+          <option value="5000">
+            Below ₹5000
+          </option>
+
+          <option value="15000">
+            Below ₹15000
+          </option>
+
+          <option value="60000">
+            Below ₹60000
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <!-- PRODUCTS ROW -->
+    <div class="row g-4">
+
+      <!-- Product 1 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+               class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Nike Shoes</h5>
+
+            <p>Comfortable and stylish sports shoes.</p>
+
+            <h4 class="text-danger">₹2550</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Nike Shoes"
+                    data-price="2999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 2 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+               class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Smart Phone</h5>
+
+            <p>Latest Android smartphone with great camera.</p>
+
+            <h4 class="text-danger">₹11999</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Smart Phone"
+                    data-price="14999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 3 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
+               class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>T-Shirt</h5>
+
+            <p>Premium quality cotton T-shirt.</p>
+
+            <h4 class="text-danger">₹299</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="T-Shirt"
+                    data-price="999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 4 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+               class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Headphones</h5>
+
+            <p>Wireless headphones with amazing sound quality.</p>
+
+            <h4 class="text-danger">₹799</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Headphones"
+                    data-price="4999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 5 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=1172&auto=format&fit=crop"
+               class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Smart Watch</h5>
+
+            <p>Modern smartwatch with fitness tracking features.</p>
+
+            <h4 class="text-danger">₹1999</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Smart Watch"
+                    data-price="6999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 6 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+        <img src="https://images.unsplash.com/photo-1509762774605-f07235a08f1f?q=80&w=2070&auto=format&fit=crop"
+     class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Backpack</h5>
+
+            <p>Stylish waterproof backpack for travel and college.</p>
+
+            <h4 class="text-danger">₹699</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Backpack"
+                    data-price="1999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 7 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+         <img src="https://plus.unsplash.com/premium_photo-1707928727870-62882e51f93d?q=80&w=1074&auto=format&fit=crop"
+     class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Jacket</h5>
+
+            <p>Premium winter jacket with trendy design.</p>
+
+            <h4 class="text-danger">₹1099</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Jacket"
+                    data-price="5499">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 8 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853"
+     class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Laptop</h5>
+
+            <p>Powerful laptop for gaming and office work.</p>
+
+            <h4 class="text-danger">₹32199</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Laptop"
+                    data-price="59999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Product 9 -->
+      <div class="col-md-4">
+
+        <div class="card shadow h-100">
+
+          <img src="https://images.unsplash.com/photo-1589003077984-894e133dabab?q=80&w=1074&auto=format&fit=crop"
+     class="card-img-top">
+
+          <div class="card-body text-center">
+
+            <h5>Bluetooth Speaker</h5>
+
+            <p>Portable speaker with deep bass sound quality.</p>
+
+            <h4 class="text-danger">₹1299</h4>
+
+            <button class="btn btn-dark add-cart"
+                    data-name="Bluetooth Speaker"
+                    data-price="2999">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- Cart -->
+<section id="cart">
+
+  <div class="container">
+
+    <h2 class="text-center mb-5">
+      Shopping Cart
+    </h2>
+
+    <div class="table-responsive">
+
+      <table class="table table-bordered table-striped text-center">
+
+        <thead class="table-dark">
+
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="cart-body">
+
+          <tr>
+            <td colspan="5">
+              Cart is Empty
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <h3 class="text-end mt-4">
+      Grand Total: ₹<span id="grand-total">0</span>
+    </h3>
+
+    <div class="text-end mt-3">
+
+      <button class="btn btn-success btn-lg"
+              id="buy-now">
+
+        Buy Now
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- Contact -->
+<section id="contact">
+
+  <div class="container">
+
+    <h2 class="text-center mb-4">
+      Contact Us
+    </h2>
+
+    <form id="contactForm"
+          class="shadow p-4 bg-white rounded">
+
+      <div class="mb-3">
+
+        <label>Name</label>
+
+        <input type="text"
+               class="form-control"
+               required>
+
+      </div>
+
+      <div class="mb-3">
+
+        <label>Email</label>
+
+        <input type="email"
+               class="form-control"
+               required>
+
+      </div>
+
+      <div class="mb-3">
+
+        <label>Message</label>
+
+        <textarea class="form-control"
+                  required></textarea>
+
+      </div>
+
+      <button class="btn btn-success">
+        Send Message
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<!-- Footer -->
+<footer>
+
+  <p>
+    © 2026 Online Shopping System
+  </p>
+
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript -->
+<script>
+
+  // LOADER TIMER
+
+  window.addEventListener("load", function(){
+
+    setTimeout(function(){
+
+      document.getElementById("loader")
+      .style.display = "none";
+
+    },3000);
+
+  });
+
+
+  let cart = [];
+
+  const cartButtons = document.querySelectorAll(".add-cart");
+  const cartBody = document.getElementById("cart-body");
+  const grandTotalDisplay = document.getElementById("grand-total");
+  const cartCountDisplay = document.getElementById("cart-count");
+
+  // Add To Cart
+
+  cartButtons.forEach(button => {
+
+    button.addEventListener("click", function(){
+
+      const name = this.getAttribute("data-name");
+      const price = parseInt(this.getAttribute("data-price"));
+
+      const existingProduct = cart.find(item => item.name === name);
+
+      if(existingProduct){
+
+        existingProduct.quantity++;
+
+      }
+      else{
+
+        cart.push({
+          name:name,
+          price:price,
+          quantity:1
+        });
+
+      }
+
+      displayCart();
+
+      alert(name + " added to cart!");
+
+    });
+
+  });
+
+  // Display Cart
+
+  function displayCart(){
+
+    cartBody.innerHTML = "";
+
+    let grandTotal = 0;
+    let totalItems = 0;
+
+    if(cart.length === 0){
+
+      cartBody.innerHTML = `
+        <tr>
+          <td colspan="5">
+            Cart is Empty
+          </td>
+        </tr>
+      `;
+
+      grandTotalDisplay.innerText = 0;
+      cartCountDisplay.innerText = 0;
+
+      return;
+
+    }
+
+    cart.forEach((item,index) => {
+
+      const total = item.price * item.quantity;
+
+      grandTotal += total;
+      totalItems += item.quantity;
+
+      cartBody.innerHTML += `
+        <tr>
+
+          <td>${item.name}</td>
+
+          <td>₹${item.price}</td>
+
+          <td>${item.quantity}</td>
+
+          <td>₹${total}</td>
+
+          <td>
+
+            <button class="btn btn-danger btn-sm"
+                    onclick="removeItem(${index})">
+
+              Remove
+
+            </button>
+
+          </td>
+
+        </tr>
+      `;
+
+    });
+
+    grandTotalDisplay.innerText = grandTotal;
+    cartCountDisplay.innerText = totalItems;
+
+  }
+
+  // Remove Item
+
+  function removeItem(index){
+
+    if(cart[index].quantity > 1){
+
+      cart[index].quantity--;
+
+    }
+    else{
+
+      cart.splice(index,1);
+
+    }
+
+    displayCart();
+
+  }
+
+  // Buy Now
+
+  document.getElementById("buy-now")
+  .addEventListener("click", function(){
+
+    if(cart.length === 0){
+
+      alert("Your Cart is Empty!");
+
+      return;
+
+    }
+
+    let bill = "------ Shopping Bill ------\n\n";
+
+    let finalTotal = 0;
+
+    cart.forEach(item => {
+
+      const total = item.price * item.quantity;
+
+      finalTotal += total;
+
+      bill +=
+      item.name +
+      " x " +
+      item.quantity +
+      " = ₹" +
+      total +
+      "\n";
+
+    });
+
+    bill += "\nGrand Total = ₹" + finalTotal;
+
+    alert("Thanks For Shopping!\n\n" + bill);
+
+    cart = [];
+
+    displayCart();
+
+  });
+
+  // Login Form
+
+  document.getElementById("loginForm")
+  .addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.com$/;
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[@]).+$/;
+
+    if(!emailPattern.test(email)){
+
+      alert("Email must contain @ and .com");
+
+      return;
+
+    }
+
+    if(!passwordPattern.test(password)){
+
+      alert("Password must contain 1 Capital Letter and @ symbol");
+
+      return;
+
+    }
+
+    alert("Login Successful!");
+
+    this.reset();
+
+  });
+
+  // Contact Form
+
+  document.getElementById("contactForm")
+  .addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    alert("Message Sent Successfully!");
+
+    this.reset();
+
+  });
+
+  // SEARCH PRODUCTS
+
+  document.getElementById("search-box")
+  .addEventListener("keyup", function(){
+
+    let value =
+      this.value.toLowerCase();
+
+    let cards =
+      document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+
+      let productName =
+        card.querySelector("h5")
+        .innerText.toLowerCase();
+
+      if(productName.includes(value)){
+
+        card.parentElement.style.display = "block";
+
+      }
+      else{
+
+        card.parentElement.style.display = "none";
+
+      }
+
+    });
+
+  });
+
+  // FILTER PRODUCTS
+
+  document.getElementById("price-filter")
+  .addEventListener("change", function(){
+
+    let filterValue = this.value;
+
+    let cards =
+      document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+
+      let priceText =
+        card.querySelector("h4")
+        .innerText.replace("₹","");
+
+      let price = parseInt(priceText);
+
+      if(filterValue === "all"){
+
+        card.parentElement.style.display = "block";
+
+      }
+      else if(price <= parseInt(filterValue)){
+
+        card.parentElement.style.display = "block";
+
+      }
+      else{
+
+        card.parentElement.style.display = "none";
+
+      }
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>
